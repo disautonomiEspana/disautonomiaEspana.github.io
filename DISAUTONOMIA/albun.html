@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Álbum de Fotos</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .album {
+            display: flex;
+            overflow: hidden;
+            width: 80%;
+            height: 300px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .album img {
+            width: 300px;
+            height: 300px;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        
+        .album img.center {
+            transform: scale(1.2);
+            z-index: 1;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .button-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #ff69b4;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .button-container a:hover {
+            background-color: #ff1493;
+            transform: translateY(-2px);
+        }
+
+        .button-container a:active {
+            transform: translateY(2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="album">
+        <img src="/imagenes/albun/celulas-productoras-de-mielina.png" alt="Foto 1">
+        <img src="/imagenes/labo.jpg" alt="Foto 2">
+        <img src="/imagenes/albun/IMG_20240112_204934_757.jpg" alt="Foto 3">
+        <img src="/imagenes/albun/IMG_20220622_222508.jpg" alt="Foto 4">
+        <img src="/imagenes/IMG_20210103_135302.jpg" alt="Foto 5">
+    </div>
+    <div class="button-container">
+        <a href="index.html">Volver al Índice</a>
+    </div>
+    <script>
+        const album = document.querySelector('.album');
+        const images = document.querySelectorAll('.album img');
+        let currentIndex = 0;
+
+        function updateImages() {
+            images.forEach((img, index) => {
+                img.classList.remove('center');
+                const offset = (index - currentIndex + images.length) % images.length;
+                img.style.order = offset;
+                img.style.opacity = offset === 0 ? '1' : '0.5';
+                if (offset === 2 || offset === images.length - 2) {
+                    img.style.opacity = '0.8';
+                }
+                if (offset === 2) {
+                    img.classList.add('center');
+                }
+            });
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImages();
+        }
+
+        setInterval(nextImage, 2000);
+
+        window.onload = updateImages;
+    </script>
+</body>
+</html>
